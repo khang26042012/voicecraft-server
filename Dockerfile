@@ -1,5 +1,5 @@
 # VoiceCraft.Server Dockerfile - built from source
-FROM mcr.microsoft.com/dotnet/sdk:9.0.108-bookworm-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-bookworm-slim AS build
 WORKDIR /src
 
 # Install git to clone
@@ -14,7 +14,7 @@ WORKDIR /src/voicecraft/VoiceCraft.Server
 RUN dotnet publish -c Release -r linux-x64 --self-contained true -o /app/build /p:PublishSingleFile=false
 
 # Runtime
-FROM mcr.microsoft.com/dotnet/runtime:9.0.8-bookworm-slim
+FROM mcr.microsoft.com/dotnet/runtime:9.0-bookworm-slim
 WORKDIR /app
 COPY --from=build /app/build /app
 
