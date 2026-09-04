@@ -1,5 +1,5 @@
 # VoiceCraft.Server Dockerfile - built from source
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0.108-bookworm-slim AS build
 WORKDIR /src
 
 # Install git to clone
@@ -14,12 +14,9 @@ WORKDIR /src/voicecraft/VoiceCraft.Server
 RUN dotnet publish -c Release -r linux-x64 --self-contained true -o /app/build /p:PublishSingleFile=false
 
 # Runtime
-FROM mcr.microsoft.com/dotnet/runtime:9.0
+FROM mcr.microsoft.com/dotnet/runtime:9.0.8-bookworm-slim
 WORKDIR /app
 COPY --from=build /app/build /app
-
-# Generate default config
-RUN ./VoiceCraft.Server --exit-on-invalid-properties true || true
 
 # Default ports
 EXPOSE 9050/udp
