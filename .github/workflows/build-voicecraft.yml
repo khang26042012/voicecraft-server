@@ -50,11 +50,9 @@ jobs:
 
       - name: Make package public
         run: |
-          gh api \
-            --method PATCH \
+          curl -X PATCH \
+            -H "Authorization: Bearer ${{ secrets.GHCR_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            /user/packages/container/voicecraft-server \
-            -f visibility=public
-        env:
-          GH_TOKEN: ${{ secrets.GHCR_TOKEN }}
+            "https://api.github.com/user/packages/container/voicecraft-server" \
+            -d '{"visibility":"public"}'
